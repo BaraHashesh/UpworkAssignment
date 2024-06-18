@@ -1,7 +1,8 @@
 package com.ticketingsystem.cinema;
 
-import com.ticketingsystem.TestUtils;
-import com.ticketingsystem.hall.Hall;
+import com.ticketingsystem.utils.TestUtils;
+import com.ticketingsystem.models.cinema.Cinema;
+import com.ticketingsystem.models.hall.Hall;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Objects;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -47,7 +50,7 @@ public class CinemaTests {
         cinema.setName("");
         cinema.setId(1L);
         response = TestUtils.sendRequest(restTemplate, "http://localhost:" + port + "/cinema", HttpMethod.POST, cinema, token);
-        Assertions.assertTrue(response.getBody().contains("Cinema Id should not be provided in the request body") &&
+        Assertions.assertTrue(Objects.requireNonNull(response.getBody()).contains("Cinema Id should not be provided in the request body") &&
                 response.getBody().contains("Cinema Name is mandatory"));
 
         // Case 4 --> Two different objects are created

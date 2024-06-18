@@ -7,8 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -33,6 +31,5 @@ public class Hall {
     @NotNull(message = "Cinema is required for hall")
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Cinema cinema;
 }

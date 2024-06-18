@@ -3,8 +3,6 @@ package com.ticketingsystem.seat;
 import com.ticketingsystem.hall.Hall;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -29,6 +27,5 @@ public class Seat {
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Hall hall;
 }

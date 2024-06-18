@@ -5,6 +5,7 @@ import com.ticketingsystem.error.RequestValidationException;
 import com.ticketingsystem.error.ResourceNotAvailableException;
 import com.ticketingsystem.seat.Seat;
 import com.ticketingsystem.seat.SeatRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class HallController {
     }
 
     @PostMapping()
+    @Transactional
     public ResponseEntity<Hall> createHall(@RequestBody Hall hall) {
         // Request Validation
         if (hall.getCinema().getId() == null) {

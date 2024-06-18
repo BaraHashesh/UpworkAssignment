@@ -8,17 +8,22 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "seat")
 public class Seat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "position_x")
     private Integer positionX;
 
+    @Column(name = "position_y")
     private Integer positionY;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private SeatStatus status;
 
     @Convert(converter = IdListConverter.class)

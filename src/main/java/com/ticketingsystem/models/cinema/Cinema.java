@@ -7,13 +7,16 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "cinema")
 public class Cinema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Null(message = "Cinema Id should not be provided in the request body")
+    @Column(name = "id")
     private Long id;
 
     @NotBlank(message = "Cinema Name is mandatory")
+    @Column(name = "name", columnDefinition = "varchar(191)")
     private String name;
 }

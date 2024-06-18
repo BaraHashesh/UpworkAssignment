@@ -1,9 +1,10 @@
-package com.ticketingsystem.halls;
+package com.ticketingsystem.controllers.hall;
 
 import com.ticketingsystem.models.cinema.Cinema;
 import com.ticketingsystem.models.hall.Hall;
 import com.ticketingsystem.models.seat.Seat;
 import com.ticketingsystem.models.seat.SeatStatus;
+import com.ticketingsystem.repositories.seat.SeatRepository;
 import com.ticketingsystem.services.cinema.CinemaService;
 import com.ticketingsystem.services.hall.HallService;
 import com.ticketingsystem.services.seat.SeatService;
@@ -25,10 +26,13 @@ import java.util.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class HallTests {
+public class HallControllersTests {
 
     @LocalServerPort
     private String port;
+
+    @Autowired
+    SeatRepository seatRepository;
 
     @Autowired
     SeatService seatService;
@@ -95,7 +99,7 @@ public class HallTests {
         Assertions.assertEquals("{\"id\":1,\"name\":\"H\",\"numberOfRows\":10,\"numberOfColumns\":10,\"cinema\":{\"id\":1,\"name\":null}}",
                 Objects.requireNonNull(response.getBody()));
 
-        Assertions.assertEquals(100, seatService.getSeatsByHallId(1L).size());
+        Assertions.assertEquals(100, seatRepository.findSeatsByHallId(1L).size());
     }
 
     @Test
@@ -130,7 +134,10 @@ public class HallTests {
                         "\"hall\":{\"id\":1,\"name\":\"H\",\"numberOfRows\":10,\"numberOfColumns\":10,\"cinema\":{\"id\":1,\"name\":\"H\"}}}",
                 response.getBody());
 
-        Seat[][] hallSeatsAsGrid = seatService.getHallSeatsAsGrid(hall);
+        List<Seat> hallSeats = seatRepository.findSeatsByHallId(1L);
+        Seat[][] hallSeatsAsGrid = new Seat[hall.getNumberOfRows()][hall.getNumberOfColumns()];
+        hallSeats.forEach(seat -> hallSeatsAsGrid[seat.getPositionX()][seat.getPositionY()] = seat);
+
         Assertions.assertEquals(hallSeatsAsGrid[4][4].getStatus(), SeatStatus.DISTANCE);
         Assertions.assertEquals(hallSeatsAsGrid[4][5].getStatus(), SeatStatus.DISTANCE);
         Assertions.assertEquals(hallSeatsAsGrid[4][6].getStatus(), SeatStatus.DISTANCE);

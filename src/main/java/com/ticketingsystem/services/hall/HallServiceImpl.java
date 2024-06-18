@@ -5,6 +5,7 @@ import com.ticketingsystem.models.hall.Hall;
 import com.ticketingsystem.models.seat.Seat;
 import com.ticketingsystem.repositories.cinema.CinemaRepository;
 import com.ticketingsystem.repositories.hall.HallRepository;
+import com.ticketingsystem.repositories.seat.SeatRepository;
 import com.ticketingsystem.services.seat.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,18 @@ import java.util.stream.StreamSupport;
  */
 @Transactional
 @Service
-public class HallServiceImp implements HallService {
+public class HallServiceImpl implements HallService {
     private final CinemaRepository cinemaRepository;
     private final HallRepository hallRepository;
+    private final SeatRepository seatRepository;
     private final SeatService seatService;
 
     @Autowired
-    public HallServiceImp(CinemaRepository cinemaRepository, HallRepository hallRepository, SeatService seatService) {
+    public HallServiceImpl(CinemaRepository cinemaRepository, HallRepository hallRepository,
+                           SeatRepository seatRepository, SeatService seatService) {
         this.cinemaRepository = cinemaRepository;
         this.hallRepository = hallRepository;
+        this.seatRepository = seatRepository;
         this.seatService = seatService;
     }
 
@@ -55,7 +59,7 @@ public class HallServiceImp implements HallService {
 
     @Override
     public List<Seat> getHallSeats(Hall hall) {
-        return this.seatService.getSeatsByHallId(hall.getId());
+        return seatRepository.findSeatsByHallId(hall.getId());
     }
 
     @Override
@@ -66,5 +70,10 @@ public class HallServiceImp implements HallService {
     @Override
     public Seat bookNextAvailableSeat(Hall hall, Integer positionX, Integer positionY) {
         return this.seatService.bookNextAvailableSeat(hall, positionX, positionY);
+    }
+
+    @Override
+    public void clearSeats(Hall hall) {
+        this.seatRepository.clearSeats(hall.getId());
     }
 }

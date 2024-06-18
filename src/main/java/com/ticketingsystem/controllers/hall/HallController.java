@@ -19,7 +19,7 @@ import java.util.List;
  * This includes the operations of getting the next seat & booking it
  */
 @RestController
-@RequestMapping("hall")
+@RequestMapping("/hall")
 public class HallController {
 
     private final HallService hallService;
@@ -87,6 +87,16 @@ public class HallController {
             throw new ResourceNotAvailableException("No available seat found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(seat);
+    }
+
+    @PostMapping("{hallId}/clearSeats")
+    public ResponseEntity<String> clearSeats(@PathVariable Long hallId) {
+        Hall hall = this.hallService.getHallById(hallId);
+        if (hall == null) {
+            throw new RequestValidationException("Selected Hall not found");
+        }
+        this.hallService.clearSeats(hall);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
     /**

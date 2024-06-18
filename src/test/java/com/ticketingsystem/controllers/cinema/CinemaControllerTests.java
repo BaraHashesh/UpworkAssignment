@@ -1,4 +1,4 @@
-package com.ticketingsystem.cinema;
+package com.ticketingsystem.controllers.cinema;
 
 import com.ticketingsystem.utils.TestUtils;
 import com.ticketingsystem.models.cinema.Cinema;
@@ -20,7 +20,7 @@ import java.util.Objects;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class CinemaTests {
+public class CinemaControllerTests {
 
     @LocalServerPort
     private String port;

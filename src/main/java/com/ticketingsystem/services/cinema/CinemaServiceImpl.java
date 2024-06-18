@@ -16,13 +16,13 @@ import java.util.stream.StreamSupport;
  */
 @Transactional
 @Service
-public class CinemaServiceImp implements CinemaService {
+public class CinemaServiceImpl implements CinemaService {
 
     private final CinemaRepository cinemaRepository;
     private final HallRepository hallRepository;
 
     @Autowired
-    public CinemaServiceImp(CinemaRepository cinemaRepository, HallRepository hallRepository) {
+    public CinemaServiceImpl(CinemaRepository cinemaRepository, HallRepository hallRepository) {
         this.cinemaRepository = cinemaRepository;
         this.hallRepository = hallRepository;
     }

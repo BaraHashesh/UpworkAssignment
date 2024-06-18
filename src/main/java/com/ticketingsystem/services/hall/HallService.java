@@ -62,4 +62,10 @@ public interface HallService {
      * @return Booked Seat Object
      */
     Seat bookNextAvailableSeat(Hall hall, Integer positionX, Integer positionY);
+
+    /**
+     * Release All hall seats
+     * @param hall The hall which seats are released
+     */
+    void clearSeats(Hall hall);
 }

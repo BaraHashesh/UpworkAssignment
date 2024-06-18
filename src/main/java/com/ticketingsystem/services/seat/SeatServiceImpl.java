@@ -14,7 +14,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class SeatServiceImp implements SeatService {
+public class SeatServiceImpl implements SeatService {
 
     private static final List<Pair<Integer, Integer>> SURROUNDING_POSITIONS = new ArrayList<>() {{
         add(Pair.of(-1 , -1));
@@ -30,7 +30,7 @@ public class SeatServiceImp implements SeatService {
     private final SeatRepository seatRepository;
 
     @Autowired
-    public SeatServiceImp(SeatRepository seatRepository) {
+    public SeatServiceImpl(SeatRepository seatRepository) {
         this.seatRepository = seatRepository;
     }
 
@@ -50,11 +50,6 @@ public class SeatServiceImp implements SeatService {
             }
         }
         seatRepository.saveAll(seats);
-    }
-
-    @Override
-    public List<Seat> getSeatsByHallId(Long hallId) {
-        return seatRepository.findSeatsByHallId(hallId);
     }
 
     @Override
@@ -121,8 +116,7 @@ public class SeatServiceImp implements SeatService {
         return seat;
     }
 
-    @Override
-    public Seat[][] getHallSeatsAsGrid(Hall hall) {
+    private Seat[][] getHallSeatsAsGrid(Hall hall) {
         Seat[][] seatGrid = new Seat[hall.getNumberOfRows()][hall.getNumberOfColumns()];
         List<Seat> seats = seatRepository.findSeatsByHallId(hall.getId());
         seats.forEach(seat -> seatGrid[seat.getPositionX()][seat.getPositionY()] = seat);
